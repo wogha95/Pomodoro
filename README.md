@@ -21,5 +21,5 @@ This extension can do these.
 <br />
 
 ## 🗣 Feedback
-Please comment in google chrome extension.   
+Please leave a comment in google chrome extension.   
 Thank you for your interest. :)
