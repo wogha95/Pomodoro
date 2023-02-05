@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Pomodoro",
   "description": "Pomodoro will help your concentration.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "action": {
     "default_title": "Let's Pomodoro!",
     "default_popup": "popup/index.html",
