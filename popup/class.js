@@ -28,8 +28,9 @@ class Pomodoro {
   }
 
   start(time) {
-    chrome.alarms.create(`${time}min`, { delayInMinutes: 2 });
+    chrome.alarms.create(`${time}min`, { delayInMinutes: time });
     chrome.alarms.create(`update`, { periodInMinutes: 1 });
+    chrome.action.setTitle({ title: `${time - 1}min left` });
     this.updateResultTime();
     this.#toggle();
   }
