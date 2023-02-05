@@ -1,3 +1,7 @@
+import type { Chrome } from "./type/index";
+
+declare const chrome: Chrome;
+
 chrome.alarms.onAlarm.addListener(({ name }) => {
   if (name === "update") {
     (async () => {
