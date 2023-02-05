@@ -15,4 +15,6 @@ chrome.alarms.onAlarm.addListener(({ name }) => {
   chrome.action.setIcon({
     path: `../images/pomodoro_unable_128.png`,
   });
+
+  chrome.alarms.clearAll();
 });

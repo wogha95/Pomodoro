@@ -8,15 +8,18 @@ class Pomodoro {
   }
 
   async #initial() {
-    const alarms = await chrome.alarms.getAll();
+    const alarms = (await chrome.alarms.getAll()).filter(
+      (alarm) => alarm.name !== "update"
+    );
+
     if (alarms.length === 0) {
-      this.#dom.toggleStopSection();
+      this.#dom.toggleStartSection();
       return;
     }
 
     this.#icon.changeIcon(true);
     this.updateResultTime();
-    this.#dom.toggleStartSection();
+    this.#dom.toggleStopSection();
   }
 
   #toggle() {
@@ -25,7 +28,7 @@ class Pomodoro {
   }
 
   start(time) {
-    chrome.alarms.create(`${time}min`, { delayInMinutes: time });
+    chrome.alarms.create(`${time}min`, { delayInMinutes: 2 });
     chrome.alarms.create(`update`, { periodInMinutes: 1 });
     this.updateResultTime();
     this.#toggle();
@@ -60,7 +63,9 @@ class DOM {
   }
 
   async #calculateResultTime() {
-    const alarms = await chrome.alarms.getAll();
+    const alarms = (await chrome.alarms.getAll()).filter(
+      (alarm) => alarm.name !== "update"
+    );
     return Math.floor(
       (new Date(alarms[0].scheduledTime).getTime() - new Date().getTime()) /
         1000 /
