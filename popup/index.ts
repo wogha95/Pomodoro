@@ -13,7 +13,7 @@ const $50minButton = $startSection.querySelector(
 ) as HTMLButtonElement;
 const $stopButton = $stopSection.querySelector("#stop") as HTMLButtonElement;
 
-const pomodoro = new Pomodoro(new DOM($startSection, $stopSection));
+const pomodoro = Pomodoro.getInstance(new DOM($startSection, $stopSection));
 
 $25minButton.addEventListener("click", () => pomodoro.start(25));
 $50minButton.addEventListener("click", () => pomodoro.start(50));

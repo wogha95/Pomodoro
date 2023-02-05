@@ -56,6 +56,17 @@ class Pomodoro<T extends InstanceType<typeof DOM>> {
 
     this.stop();
   }
+
+  static #instance: InstanceType<typeof Pomodoro>;
+
+  static getInstance(dom: InstanceType<typeof DOM>) {
+    if (Pomodoro.#instance) {
+      return this.#instance;
+    }
+
+    this.#instance = new Pomodoro(dom);
+    return this.#instance;
+  }
 }
 
 class DOM<T extends HTMLElement> {
