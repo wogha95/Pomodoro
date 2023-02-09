@@ -1,8 +1,12 @@
-class Pomodoro {
+import type { Alarm, Chrome } from "../type/index";
+
+declare const chrome: Chrome;
+
+class Pomodoro<T extends InstanceType<typeof DOM>> {
   #icon = new Icon();
   #dom;
 
-  constructor(dom) {
+  constructor(dom: T) {
     this.#dom = dom;
     this.#initial();
   }
@@ -27,7 +31,7 @@ class Pomodoro {
     this.#dom.toggleAll();
   }
 
-  start(time) {
+  start(time: number) {
     chrome.alarms.create(`${time}min`, { delayInMinutes: time });
     chrome.alarms.create(`update`, { periodInMinutes: 1 });
     chrome.action.setTitle({ title: `${time - 1}min left` });
@@ -44,7 +48,7 @@ class Pomodoro {
     this.#dom.updateResultTime();
   }
 
-  handleAlarm(name) {
+  handleAlarm(name: Alarm["name"]) {
     if (name === "update") {
       this.updateResultTime();
       return;
@@ -52,13 +56,24 @@ class Pomodoro {
 
     this.stop();
   }
+
+  static #instance: InstanceType<typeof Pomodoro>;
+
+  static getInstance(dom: InstanceType<typeof DOM>) {
+    if (Pomodoro.#instance) {
+      return this.#instance;
+    }
+
+    this.#instance = new Pomodoro(dom);
+    return this.#instance;
+  }
 }
 
-class DOM {
+class DOM<T extends HTMLElement> {
   #startSection;
   #stopSection;
 
-  constructor(startSection, stopSection) {
+  constructor(startSection: T, stopSection: T) {
     this.#startSection = startSection;
     this.#stopSection = stopSection;
   }
@@ -90,7 +105,7 @@ class DOM {
   async updateResultTime() {
     this.#stopSection.querySelector(
       "span"
-    ).innerText = `${await this.#calculateResultTime()}min left`;
+    )!.innerText = `${await this.#calculateResultTime()}min left`;
   }
 }
 
